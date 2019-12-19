@@ -3,8 +3,7 @@
     "version": "1.0.0",
     "displayName": "Point Renderer",
     "description": "Renders the scene using raycasts and points",
-    "unity": "2019.1",
-    "unityRelease": "0b5",
+    "unity": "2018.1",
     "dependencies": {},
     "keywords": [
         "Render",

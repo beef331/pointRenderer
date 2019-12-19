@@ -8,8 +8,6 @@ public class Scanner : MonoBehaviour
     [SerializeField]
     private int raysPerFrame = 30;
     [SerializeField]
-    private float fov = 45;
-    [SerializeField]
     private Gradient gradient;
     [SerializeField]
     private float maxDist = 50;
@@ -33,9 +31,8 @@ public class Scanner : MonoBehaviour
     public static int pointCount = 10000;
 
     private RaycastHit[] rayHit = new RaycastHit[1];
-
     private PointRenderer pointRenderer;
-
+    
     private Camera cam;
     
 
