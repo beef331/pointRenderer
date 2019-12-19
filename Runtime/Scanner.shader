@@ -111,12 +111,8 @@
                 fixed light = dot(normalize(_LightDir),i.normal) * .5 + .5;
                 fixed dist = (distance(i.world,POINTS[i.index].pos)/(_Size/2));
                 distSample.a = tex2D(MASK,i.uv).a;
-                #if LIGHTING_ON
-                return distSample;
-                #else LIGHTING_ON
                 distSample.rgb *= light;
                 return distSample;
-                #endif
                 
             }
             ENDCG
