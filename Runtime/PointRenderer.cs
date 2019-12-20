@@ -5,12 +5,11 @@ namespace PointRenderer
 {
     public class PointRenderer : MonoBehaviour
     {
+        public Scanner scanner;
         void OnRenderObject()
         {
-
-
-            Scanner.material.SetPass(0);
-            Graphics.DrawProceduralNow(MeshTopology.Points, Scanner.pointCount);
+            scanner.Material.SetPass(0);
+            Graphics.DrawProceduralNow(MeshTopology.Points, scanner.PointCount);
         }
     }
 }
