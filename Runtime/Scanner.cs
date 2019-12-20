@@ -34,7 +34,7 @@ namespace PointRenderer
         void OnEnable()
         {
             points = new VecThree[PointCount];
-            Material = new Material(Shader.Find("Unlit/Scanner"));
+            Material = new Material(Shader.Find("Hidden/Scanner"));
             buffer = new ComputeBuffer(points.Length, 24);
             Texture2D tex = new Texture2D(100, 1, TextureFormat.RGBA32, 0, true);
             tex.wrapMode = TextureWrapMode.Clamp;
