@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Linq;
 namespace PointRenderer
 {
 	public class Scanner : MonoBehaviour
@@ -19,15 +20,13 @@ namespace PointRenderer
 		[SerializeField]
 		private Texture2D mask;
 		[SerializeField]
-		private Vector3 lightDir = new Vector3(1,1,1);
+		private Vector3 lightDir = new Vector3(1, 1, 1);
 
 		private VecThree[] points;
 		private int currentIndex = 0;
 		private ComputeBuffer buffer;
 
 		public int PointCount { get; private set; } = 10000;
-
-		private RaycastHit[] rayHit = new RaycastHit[1];
 		private PointRenderer pointRenderer;
 
 		private Camera cam;
@@ -65,23 +64,25 @@ namespace PointRenderer
 			{
 				point = new Vector2(Random.value, Random.value);
 				ray = cam.ViewportPointToRay(point);
-				if (Physics.RaycastNonAlloc(ray, rayHit, maxDist, 0xFFFFFF, QueryTriggerInteraction.Ignore) == 1)
+				ray.origin = transform.position;
+				if (Physics.Raycast(ray, out RaycastHit hit, maxDist, 0xFFFFFF, QueryTriggerInteraction.Ignore))
 				{
 					if (currentIndex >= points.Length)
 					{
 						currentIndex = 0;
 					}
-					points[currentIndex++] = rayHit[0];
+					points[currentIndex++] = hit;
 				}
 			}
-			buffer.SetData(points);
+
+			buffer.SetData(points.OrderByDescending(x => Vector3.SqrMagnitude(new Vector3(x.x, x.y, x.z) - transform.position)).ToArray());
 
 			Material.SetFloat("MAX_DIST", maxDist);
 			Material.SetFloat("_Size", size);
 			Material.SetVector("UpDir", transform.up);
 			Material.SetVector("RightDir", transform.right);
 			Material.SetTexture("MASK", mask);
-			Material.SetVector("_LightDir",lightDir);
+			Material.SetVector("_LightDir", lightDir);
 		}
 
 

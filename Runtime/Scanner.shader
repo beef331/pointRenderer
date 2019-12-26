@@ -9,19 +9,17 @@
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent"}
         LOD 100
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha 
         ZTest LEqual
         ZWrite Off
+
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma geometry geom
             #pragma fragment frag
-            // make fog work
             #pragma multi_compile_fog
-            #pragma shader_feature LIGHTING_ON;
-
             #include "UnityCG.cginc"
 
             struct VInput
@@ -76,7 +74,7 @@
                 g2f o;
                 o.normal = input[0].normal;
                 fixed camDist = (distance(input[0].pos,_WorldSpaceCameraPos));
-                //_Size *= camDist;
+                _Size *= camDist;
 
                 o.index = input[0].vid;
 
@@ -105,7 +103,7 @@
             fixed4 frag (g2f i) : SV_Target
             {
                 fixed camDist = (distance(i.world,_WorldSpaceCameraPos));
-                //_Size *= camDist;
+                _Size *= camDist;
                 fixed4 distSample = tex1D(DIST_GRADIENT,saturate(camDist/MAX_DIST));
                 UNITY_APPLY_FOG(i.fogCoord, distSample);
                 fixed light = dot(normalize(_LightDir),i.normal) * .5 + .5;
